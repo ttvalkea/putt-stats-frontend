@@ -1,24 +1,31 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import ButtonComponent from "./ButtonComponent";
+import { PuttResult } from "./constants";
 
 function App() {
+  const buttonComponents: any[] = [];
+  for (let index = 1; index <= 20; index++) {
+    buttonComponents.push(
+      <ButtonComponent distance={index} puttResult={PuttResult.Make} />
+    );
+    buttonComponents.push(
+      <ButtonComponent distance={index} puttResult={PuttResult.Miss} />
+    );
+    buttonComponents.push(<br />);
+  }
+  const actionButtonStyle = { width: 100, height: 40, margin: 20 };
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Puttimerkinnät</h1>
+      {buttonComponents}
+      {/* Distance over 20 meters is marked as 21 meters */}
+      <ButtonComponent distance={21} puttResult={PuttResult.Make} />
+      <ButtonComponent distance={21} puttResult={PuttResult.Miss} />
+
+      <br />
+      <br />
+      <button style={actionButtonStyle}>Undo previous putt</button>
+      <button style={actionButtonStyle}>Redo previous undo</button>
     </div>
   );
 }
