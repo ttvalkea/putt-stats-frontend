@@ -17,8 +17,9 @@ function ButtonComponent(props: ButtonComponentProps) {
   return (
     <button
       style={props.puttResult === PuttResult.Make ? makeStyle : missStyle}
+      id={`button-${props.puttResult}-${props.distance}`}
     >
-      {props.distance === 21 ? "> 20" : props.distance}
+      {props.distance === 21 ? "> 20" : props.distance} m
     </button>
   );
 }

@@ -6,12 +6,20 @@ function App() {
   const buttonComponents: any[] = [];
   for (let index = 1; index <= 20; index++) {
     buttonComponents.push(
-      <ButtonComponent distance={index} puttResult={PuttResult.Make} />
+      <ButtonComponent
+        distance={index}
+        puttResult={PuttResult.Make}
+        key={`button-make-${index}`}
+      />
     );
     buttonComponents.push(
-      <ButtonComponent distance={index} puttResult={PuttResult.Miss} />
+      <ButtonComponent
+        distance={index}
+        puttResult={PuttResult.Miss}
+        key={`button-miss-${index}`}
+      />
     );
-    buttonComponents.push(<br />);
+    buttonComponents.push(<br key={`br-${index}`} />);
   }
   const actionButtonStyle = { width: 100, height: 40, margin: 20 };
   return (
@@ -24,8 +32,12 @@ function App() {
 
       <br />
       <br />
-      <button style={actionButtonStyle}>Undo previous putt</button>
-      <button style={actionButtonStyle}>Redo previous undo</button>
+      <button style={actionButtonStyle} key="undo">
+        Undo previous putt
+      </button>
+      <button style={actionButtonStyle} key="redo">
+        Redo previous undo
+      </button>
     </div>
   );
 }
