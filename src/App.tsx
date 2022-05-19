@@ -3,6 +3,7 @@ import ButtonComponent from "./ButtonComponent";
 import { PuttResult } from "./constants";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { getPuttResults } from "./database";
 
 function App() {
   const buttonComponents: any[] = [];
@@ -36,7 +37,9 @@ function App() {
       })`
     );
   };
-  const redoPreviousUndo = () => {
+  const redoPreviousUndo = async () => {
+    const results = await getPuttResults();
+    console.log(results);
     const lastPuttDistance = 5; // TODO: This should come from the API
     const lastPuttResult = PuttResult.Make; // TODO: This should come from the API
     toast(

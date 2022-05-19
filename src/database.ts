@@ -1,5 +1,5 @@
 import axios from "axios";
-import { apiPuttResult } from "./types";
+import { apiPuttResult, newPuttInsert } from "./types";
 const axiosInstance = axios.create({
   baseURL: "http://localhost:8081",
   headers: {
@@ -24,4 +24,22 @@ const getPuttResults = async (): Promise<apiPuttResult[]> => {
   }
 };
 
-export { getPuttResults };
+// TODO: return type
+const markNewPuttResult = async (puttData: newPuttInsert): Promise<any> => {
+  try {
+    const res = await axiosInstance.post("/mark-putt", puttData);
+    const result = {
+      data: res.data,
+      status: res.status,
+      statusText: res.statusText,
+      headers: res.headers,
+    };
+    console.log(result);
+    return result.data;
+  } catch (err) {
+    console.log("Error occured on 'markNewPuttResult'");
+    return undefined;
+  }
+};
+
+export { getPuttResults, markNewPuttResult };

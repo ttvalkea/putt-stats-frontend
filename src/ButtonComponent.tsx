@@ -1,13 +1,20 @@
 import { toast } from "react-toastify";
 import "./App.css";
 import { PuttResult } from "./constants";
+import { markNewPuttResult } from "./database";
+import { newPuttInsert } from "./types";
 
 type ButtonComponentProps = {
   puttResult: PuttResult;
   distance: number;
 };
 
-const markPuttResult = (distance: number, puttResult: PuttResult) => {
+const markPuttResult = async (distance: number, puttResult: PuttResult) => {
+  await markNewPuttResult({
+    distance,
+    isMade: puttResult === PuttResult.Make,
+    userId: 1,
+  } as newPuttInsert);
   const toastText = `Putt ${
     puttResult === PuttResult.Make ? "made" : "missed"
   } from ${distance === 21 ? "> 20" : distance} m`;
