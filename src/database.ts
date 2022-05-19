@@ -24,7 +24,6 @@ const getPuttResults = async (): Promise<apiPuttResult[]> => {
   }
 };
 
-// TODO: return type
 const markNewPuttResult = async (puttData: newPuttInsert): Promise<any> => {
   try {
     const res = await axiosInstance.post("/mark-putt", puttData);
@@ -42,4 +41,15 @@ const markNewPuttResult = async (puttData: newPuttInsert): Promise<any> => {
   }
 };
 
-export { getPuttResults, markNewPuttResult };
+const undoLastPuttResult = async (): Promise<any> => {
+  try {
+    const result = await axiosInstance.put("/undo-putt");
+    console.log(result);
+    return result.data;
+  } catch (err) {
+    console.log("Error occured on 'undoLastPuttResult'");
+    return undefined;
+  }
+};
+
+export { getPuttResults, markNewPuttResult, undoLastPuttResult };

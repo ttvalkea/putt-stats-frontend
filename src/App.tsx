@@ -3,7 +3,8 @@ import ButtonComponent from "./ButtonComponent";
 import { PuttResult } from "./constants";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { getPuttResults } from "./database";
+import { undoLastPuttResult } from "./database";
+import { apiPuttResult } from "./types";
 
 function App() {
   const buttonComponents: any[] = [];
@@ -28,25 +29,19 @@ function App() {
 
   const actionButtonStyle = { width: 100, height: 40, margin: 20 };
 
-  const undoPreviousPutt = () => {
-    const lastPuttDistance = 5; // TODO: This should come from the API
-    const lastPuttResult = PuttResult.Make; // TODO: This should come from the API
-    toast(
-      `↩️ Undid previous putt (${lastPuttDistance} m ${
-        lastPuttResult === PuttResult.Make ? "make" : "miss"
-      })`
-    );
-  };
-  const redoPreviousUndo = async () => {
-    const results = await getPuttResults();
-    console.log(results);
-    const lastPuttDistance = 5; // TODO: This should come from the API
-    const lastPuttResult = PuttResult.Make; // TODO: This should come from the API
-    toast(
-      `➡️ Redid previously undone putt (${lastPuttDistance} m ${
-        lastPuttResult === PuttResult.Make ? "make" : "miss"
-      })`
-    );
+  const undoPreviousPutt = async () => {
+    const undoResult: apiPuttResult | boolean = await undoLastPuttResult();
+    if (undoResult === true) {
+      toast.warn("No putt results to undo!");
+    } else {
+      const lastPuttDistance = (undoResult as apiPuttResult).distance;
+      const lastPuttResult = (undoResult as apiPuttResult).isMade;
+      toast(
+        `↩️ Undid previous putt (${
+          lastPuttDistance === 21 ? "> 20" : lastPuttDistance
+        } m ${lastPuttResult ? "make" : "miss"})`
+      );
+    }
   };
 
   return (
@@ -61,10 +56,7 @@ function App() {
       <br />
       <br />
       <button style={actionButtonStyle} key="undo" onClick={undoPreviousPutt}>
-        Undo previous putt
-      </button>
-      <button style={actionButtonStyle} key="redo" onClick={redoPreviousUndo}>
-        Redo previous undo
+        ↩️ Undo previous putt
       </button>
     </div>
   );
