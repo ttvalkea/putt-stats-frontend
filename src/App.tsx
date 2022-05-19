@@ -5,6 +5,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { undoLastPuttResult } from "./database";
 import { apiPuttResult } from "./types";
+import { Link } from "react-router-dom";
 
 function App() {
   const buttonComponents: any[] = [];
@@ -47,7 +48,7 @@ function App() {
   return (
     <div className="App">
       <ToastContainer />
-      <h1>Puttimerkinnät</h1>
+      <h1>Putt makes and misses</h1>
       {buttonComponents}
       {/* Distance over 20 meters is marked as 21 meters */}
       <ButtonComponent distance={21} puttResult={PuttResult.Make} />
@@ -58,6 +59,8 @@ function App() {
       <button style={actionButtonStyle} key="undo" onClick={undoPreviousPutt}>
         ↩️ Undo previous putt
       </button>
+      <br />
+      <Link to="/stats">Putting stats</Link>
     </div>
   );
 }

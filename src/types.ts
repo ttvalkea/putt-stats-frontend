@@ -4,7 +4,7 @@ export type apiPuttResult = {
   isUndone: boolean;
   name: string;
   puttResultId: number;
-  puttTimestamp: Date;
+  puttTimestamp: string;
   userId: number;
 };
 
