@@ -7,9 +7,15 @@ const axiosInstance = axios.create({
   },
 });
 
+const headerConfiguration = {
+  headers: {
+    throwdata: true,
+  },
+};
+
 const getPuttResults = async (): Promise<apiPuttResult[]> => {
   try {
-    const res = await axiosInstance.get("/putt-results");
+    const res = await axiosInstance.get("/putt-results", headerConfiguration);
     const result = {
       data: res.data,
       status: res.status,
@@ -26,7 +32,11 @@ const getPuttResults = async (): Promise<apiPuttResult[]> => {
 
 const markNewPuttResult = async (puttData: newPuttInsert): Promise<any> => {
   try {
-    const res = await axiosInstance.post("/mark-putt", puttData);
+    const res = await axiosInstance.post(
+      "/mark-putt",
+      puttData,
+      headerConfiguration
+    );
     const result = {
       data: res.data,
       status: res.status,
@@ -43,7 +53,11 @@ const markNewPuttResult = async (puttData: newPuttInsert): Promise<any> => {
 
 const undoLastPuttResult = async (): Promise<any> => {
   try {
-    const result = await axiosInstance.put("/undo-putt");
+    const result = await axiosInstance.put(
+      "/undo-putt",
+      null,
+      headerConfiguration
+    );
     console.log(result);
     return result.data;
   } catch (err) {
