@@ -1,7 +1,8 @@
 import axios from "axios";
 import { apiPuttResult, newPuttInsert } from "./types";
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:8081",
+  // TODO: Use .env files for this in the future
+  baseURL: "https://poetic-now-349710.ey.r.appspot.com", // "http://localhost:8081", // "https://poetic-now-349710.ey.r.appspot.com",
   headers: {
     "Content-type": "application/json",
   },
