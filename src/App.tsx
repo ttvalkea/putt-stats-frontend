@@ -32,7 +32,9 @@ function App() {
 
   const undoPreviousPutt = async () => {
     const undoResult: apiPuttResult | boolean = await undoLastPuttResult();
-    if (undoResult === true) {
+    if (!undoResult) {
+      toast.error("An error occured trying to undo a putt.");
+    } else if (undoResult === true) {
       toast.warn("No putt results to undo!");
     } else {
       const lastPuttDistance = (undoResult as apiPuttResult).distance;
@@ -45,10 +47,20 @@ function App() {
     }
   };
 
+  const environmentTextStyle = {
+    fontSize: "10px",
+    fontWeight: 200,
+    marginLeft: "10px",
+  };
+  const environment = process.env.NODE_ENV;
+
   return (
     <div className="App">
       <ToastContainer />
-      <h1>Putt makes and misses</h1>
+      <h1>
+        Putt makes and misses
+        <span style={environmentTextStyle}>{environment}</span>{" "}
+      </h1>
       {buttonComponents}
       {/* Distance over 20 meters is marked as 21 meters */}
       <ButtonComponent distance={21} puttResult={PuttResult.Make} />

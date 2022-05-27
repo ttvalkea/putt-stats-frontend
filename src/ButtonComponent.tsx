@@ -10,18 +10,26 @@ type ButtonComponentProps = {
 };
 
 const markPuttResult = async (distance: number, puttResult: PuttResult) => {
-  await markNewPuttResult({
+  const markingResult = await markNewPuttResult({
     distance,
     isMade: puttResult === PuttResult.Make,
     userId: 1,
   } as newPuttInsert);
-  const toastText = `Putt ${
-    puttResult === PuttResult.Make ? "made" : "missed"
-  } from ${distance === 21 ? "> 20" : distance} m`;
-  if (puttResult === PuttResult.Make) {
-    toast.success(toastText);
+  if (!markingResult) {
+    toast.error(
+      `An error occured trying to mark a putt from ${
+        distance === 21 ? "> 20" : distance
+      } m`
+    );
   } else {
-    toast.warn(toastText);
+    const toastText = `Putt ${
+      puttResult === PuttResult.Make ? "made" : "missed"
+    } from ${distance === 21 ? "> 20" : distance} m`;
+    if (puttResult === PuttResult.Make) {
+      toast.success(toastText);
+    } else {
+      toast.warn(toastText);
+    }
   }
 };
 

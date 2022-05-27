@@ -1,8 +1,8 @@
 import axios from "axios";
 import { apiPuttResult, newPuttInsert } from "./types";
+
 const axiosInstance = axios.create({
-  // TODO: Use .env files for this in the future
-  baseURL: "https://poetic-now-349710.ey.r.appspot.com", // "http://localhost:8081", // "https://poetic-now-349710.ey.r.appspot.com",
+  baseURL: process.env.REACT_APP_DATABASE_URL,
   headers: {
     "Content-type": "application/json",
   },
@@ -14,7 +14,7 @@ const headerConfiguration = {
   },
 };
 
-const getPuttResults = async (): Promise<apiPuttResult[]> => {
+const getPuttResults = async (): Promise<apiPuttResult[] | undefined> => {
   try {
     const res = await axiosInstance.get("/putt-results", headerConfiguration);
     const result = {
@@ -27,7 +27,7 @@ const getPuttResults = async (): Promise<apiPuttResult[]> => {
     return result.data;
   } catch (err) {
     console.log("Error occured on 'getPuttResults'");
-    return [];
+    return undefined;
   }
 };
 

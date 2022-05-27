@@ -4,6 +4,7 @@ import { getPuttResults } from "../database";
 import { apiPuttResult } from "../types";
 import { groupBy, orderBy } from "lodash";
 import { parseISO } from "date-fns";
+import { ToastContainer, toast } from "react-toastify";
 
 // TODO: Make a checkbox for showing/not showing undone putts
 
@@ -13,7 +14,11 @@ export default function Stats() {
   useEffect(() => {
     const fetchData = async () => {
       const puttResults = await getPuttResults();
-      setStats(puttResults);
+      if (!puttResults) {
+        toast.error("An error occured trying to get putt results.");
+      } else {
+        setStats(puttResults);
+      }
     };
 
     fetchData();
@@ -94,6 +99,7 @@ export default function Stats() {
 
   return (
     <main className="App">
+      <ToastContainer />
       <h2>Putting stats</h2>
       <Link to="/">Back to marking</Link>
       <br />
