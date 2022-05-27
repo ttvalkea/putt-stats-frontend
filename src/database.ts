@@ -54,9 +54,9 @@ const markNewPuttResult = async (puttData: newPuttInsert): Promise<any> => {
 
 const undoLastPuttResult = async (): Promise<any> => {
   try {
-    const result = await axiosInstance.put(
+    const result = await axiosInstance.patch(
       "/undo-putt",
-      null,
+      undefined,
       headerConfiguration
     );
     console.log(result);
