@@ -72,11 +72,11 @@ export default function Stats() {
         fontWeight: "bold",
         borderRadius: "25px",
         opacity: putt.isUndone ? "20%" : "100%",
-        width: "20px",
+        width: "25px",
       };
       puttElementsForADay.push(
         <div key={putt.puttResultId} style={style}>
-          {putt.distance}
+          {putt.distance === 21 ? "20+" : putt.distance}
         </div>
       );
     }
