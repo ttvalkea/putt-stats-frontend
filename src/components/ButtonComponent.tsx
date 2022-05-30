@@ -3,7 +3,10 @@ import "../App.css";
 import { PuttResult, PuttType } from "../constants";
 import { markNewPuttResult } from "../database";
 import { newPuttInsert } from "../types";
-import { getPuttTypeFromLocalStorage } from "../utilities";
+import {
+  getPuttTypeFromLocalStorage,
+  getUserIdFromLocalStorage,
+} from "../utilities";
 
 type ButtonComponentProps = {
   puttResult: PuttResult;
@@ -14,7 +17,7 @@ const markPuttResult = async (distance: number, puttResult: PuttResult) => {
   const markingResult = await markNewPuttResult({
     distance,
     isMade: puttResult === PuttResult.Make,
-    userId: 1,
+    userId: getUserIdFromLocalStorage() ?? 1,
     type: getPuttTypeFromLocalStorage() ?? PuttType.Practice,
   } as newPuttInsert);
   if (!markingResult) {

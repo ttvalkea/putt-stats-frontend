@@ -1,5 +1,6 @@
 import axios from "axios";
 import { apiPuttResult, newPuttInsert } from "./types";
+import { getUserIdFromLocalStorage } from "./utilities";
 
 const axiosInstance = axios.create({
   baseURL: process.env.REACT_APP_DATABASE_URL,
@@ -16,7 +17,10 @@ const headerConfiguration = {
 
 const getPuttResults = async (): Promise<apiPuttResult[] | undefined> => {
   try {
-    const res = await axiosInstance.get("/putt-results", headerConfiguration);
+    const res = await axiosInstance.get(
+      `/putt-results?userId=${getUserIdFromLocalStorage() ?? 1}`,
+      headerConfiguration
+    );
     const result = {
       data: res.data,
       status: res.status,

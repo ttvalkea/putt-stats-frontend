@@ -7,6 +7,7 @@ import { undoLastPuttResult } from "./database";
 import { apiPuttResult } from "./types";
 import { Link } from "react-router-dom";
 import PuttTypeSelectionComponent from "./components/PuttTypeSelectionComponent";
+import UserSelectionComponent from "./components/UserSelectionComponent";
 
 function App() {
   const buttonComponents: any[] = [];
@@ -70,10 +71,8 @@ function App() {
       {/* Distance over 20 meters is marked as 21 meters */}
       <ButtonComponent distance={21} puttResult={PuttResult.Make} />
       <ButtonComponent distance={21} puttResult={PuttResult.Miss} />
-
       <br />
       <br />
-
       <Link
         to="/stats"
         style={{ paddingBottom: 50, paddingRight: 30, fontSize: 20 }}
@@ -83,10 +82,11 @@ function App() {
       <button style={actionButtonStyle} key="undo" onClick={undoPreviousPutt}>
         ↩️ Undo previous putt
       </button>
-
       <br />
-
       <PuttTypeSelectionComponent />
+      <br />
+      <UserSelectionComponent />
+      <br /> <br />
     </div>
   );
 }
