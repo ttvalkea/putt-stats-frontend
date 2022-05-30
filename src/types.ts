@@ -15,4 +15,5 @@ export type newPuttInsert = {
   distance: number;
   isMade: boolean;
   userId: number;
+  type: PuttType;
 };
