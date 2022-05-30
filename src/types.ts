@@ -1,3 +1,5 @@
+import { PuttType } from "./constants";
+
 export type apiPuttResult = {
   distance: number;
   isMade: boolean;
@@ -6,6 +8,7 @@ export type apiPuttResult = {
   puttResultId: number;
   puttTimestamp: string;
   userId: number;
+  type: PuttType;
 };
 
 export type newPuttInsert = {

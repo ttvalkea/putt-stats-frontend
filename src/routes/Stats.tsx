@@ -6,6 +6,8 @@ import { groupBy, orderBy } from "lodash";
 import { parseISO } from "date-fns";
 import { ToastContainer, toast } from "react-toastify";
 import PuttPercentageComponent from "../components/PuttPercentageComponent";
+import { PuttType } from "../constants";
+import PuttIndicatorComponent from "../components/PuttIndicatorComponent";
 
 export default function Stats() {
   const [stats, setStats] = useState([] as apiPuttResult[]);
@@ -57,14 +59,22 @@ export default function Stats() {
   );
   for (let index = 0; index < statsGroupedByDayAndSortedByDay.length; index++) {
     const statsForADay = statsGroupedByDayAndSortedByDay[index];
-    statsForADayTables.push(
-      <h3 key={`day-title-${statsForADay.day}`}>{statsForADay.day}</h3>
-    );
-
     const puttsForADayOrdered = orderBy(
       statsForADay.putts,
       ["puttResultId"],
       ["desc"]
+    );
+
+    const typesInArray = puttsForADayOrdered.map((p) => PuttType[p.type]);
+    const daysPuttTypes = typesInArray.filter((x, i, a) => a.indexOf(x) === i);
+
+    statsForADayTables.push(
+      <h3 key={`day-title-${statsForADay.day}`}>
+        {statsForADay.day}
+        <span style={{ fontSize: 14, fontWeight: 300, paddingLeft: "10px" }}>
+          {daysPuttTypes.toString()}
+        </span>
+      </h3>
     );
 
     const styleForPercentageElement = { padding: "10px" };
@@ -99,20 +109,8 @@ export default function Stats() {
     const puttElementsForADay: any[] = [];
     for (let i = 0; i < puttsForADayOrdered.length; i++) {
       const putt = puttsForADayOrdered[i];
-      const style = {
-        backgroundColor: putt.isMade ? "#1e3" : "#a00",
-        color: putt.isMade ? "#111" : "#fff",
-        padding: "6px",
-        margin: "4px",
-        fontWeight: "bold",
-        borderRadius: "25px",
-        opacity: putt.isUndone ? "20%" : "100%",
-        width: "25px",
-      };
       puttElementsForADay.push(
-        <div key={putt.puttResultId} style={style}>
-          {putt.distance === 21 ? "20+" : putt.distance}
-        </div>
+        <PuttIndicatorComponent key={putt.puttResultId} putt={putt} />
       );
     }
 
@@ -149,7 +147,11 @@ export default function Stats() {
         style={{ marginTop: "20px" }}
       />
       <label htmlFor="show-undone-putts-checkbox">Show undone putts</label>
-      <br />
+      <hr
+        style={{
+          borderTop: "3px dashed #bbb",
+        }}
+      />
       {statsForADayTables}
     </main>
   );
