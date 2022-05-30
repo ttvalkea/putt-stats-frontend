@@ -6,6 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { undoLastPuttResult } from "./database";
 import { apiPuttResult } from "./types";
 import { Link } from "react-router-dom";
+import PuttTypeSelectionComponent from "./components/PuttTypeSelectionComponent";
 
 function App() {
   const buttonComponents: any[] = [];
@@ -28,7 +29,11 @@ function App() {
     buttonComponents.push(<br key={`br-${index}`} />);
   }
 
-  const actionButtonStyle = { width: 100, height: 40, margin: 20 };
+  const actionButtonStyle = {
+    width: 100,
+    height: 40,
+    margin: 30,
+  };
 
   const undoPreviousPutt = async () => {
     const undoResult: apiPuttResult | boolean = await undoLastPuttResult();
@@ -58,7 +63,7 @@ function App() {
     <div className="App">
       <ToastContainer />
       <h1>
-        Putt makes and misses
+        Putt results
         <span style={environmentTextStyle}>{environment}</span>{" "}
       </h1>
       {buttonComponents}
@@ -68,13 +73,20 @@ function App() {
 
       <br />
       <br />
+
+      <Link
+        to="/stats"
+        style={{ paddingBottom: 50, paddingRight: 30, fontSize: 20 }}
+      >
+        Putting stats
+      </Link>
       <button style={actionButtonStyle} key="undo" onClick={undoPreviousPutt}>
         ↩️ Undo previous putt
       </button>
+
       <br />
-      <Link to="/stats" style={{ paddingBottom: "50px", fontSize: "20px" }}>
-        Putting stats
-      </Link>
+
+      <PuttTypeSelectionComponent />
     </div>
   );
 }
