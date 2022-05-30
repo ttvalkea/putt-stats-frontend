@@ -1,8 +1,8 @@
 import { toast } from "react-toastify";
-import "./App.css";
-import { PuttResult } from "./constants";
-import { markNewPuttResult } from "./database";
-import { newPuttInsert } from "./types";
+import "../App.css";
+import { PuttResult } from "../constants";
+import { markNewPuttResult } from "../database";
+import { newPuttInsert } from "../types";
 
 type ButtonComponentProps = {
   puttResult: PuttResult;

@@ -1,5 +1,5 @@
 import "./App.css";
-import ButtonComponent from "./ButtonComponent";
+import ButtonComponent from "./components//ButtonComponent";
 import { PuttResult } from "./constants";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -72,7 +72,9 @@ function App() {
         ↩️ Undo previous putt
       </button>
       <br />
-      <Link to="/stats">Putting stats</Link>
+      <Link to="/stats" style={{ paddingBottom: "50px", fontSize: "20px" }}>
+        Putting stats
+      </Link>
     </div>
   );
 }

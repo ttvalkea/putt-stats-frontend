@@ -5,6 +5,7 @@ import { apiPuttResult } from "../types";
 import { groupBy, orderBy } from "lodash";
 import { parseISO } from "date-fns";
 import { ToastContainer, toast } from "react-toastify";
+import PuttPercentageComponent from "../components/PuttPercentageComponent";
 
 // TODO: Make a checkbox for showing/not showing undone putts
 
@@ -61,6 +62,35 @@ export default function Stats() {
       ["desc"]
     );
 
+    const styleForPercentageElement = { padding: "10px" };
+    statsForADayTables.push(
+      <div
+        key={`percentage-element-${statsForADay.day}`}
+        style={{ marginBottom: "10px" }}
+      >
+        <span style={styleForPercentageElement}>
+          <PuttPercentageComponent
+            putts={puttsForADayOrdered.filter(
+              (p) => p.distance >= 4 && p.distance <= 10
+            )}
+            header="C1"
+          />
+        </span>
+        <span style={styleForPercentageElement}>
+          <PuttPercentageComponent
+            putts={puttsForADayOrdered.filter((p) => p.distance > 10)}
+            header="C2"
+          />
+        </span>
+        <span style={styleForPercentageElement}>
+          <PuttPercentageComponent
+            putts={puttsForADayOrdered.filter((p) => p.distance < 4)}
+            header="BE"
+          />
+        </span>
+      </div>
+    );
+
     const puttElementsForADay: any[] = [];
     for (let i = 0; i < puttsForADayOrdered.length; i++) {
       const putt = puttsForADayOrdered[i];
@@ -90,6 +120,7 @@ export default function Stats() {
           flexDirection: "row",
           flexWrap: "wrap",
           justifyContent: "center",
+          paddingBottom: "50px",
         }}
       >
         {puttElementsForADay}
@@ -101,7 +132,9 @@ export default function Stats() {
     <main className="App">
       <ToastContainer />
       <h2>Putting stats</h2>
-      <Link to="/">Back to marking</Link>
+      <Link to="/" style={{ fontSize: "20px" }}>
+        Back to marking
+      </Link>
       <br />
       {statsForADayTables}
     </main>
