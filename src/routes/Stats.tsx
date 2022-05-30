@@ -7,10 +7,12 @@ import { parseISO } from "date-fns";
 import { ToastContainer, toast } from "react-toastify";
 import PuttPercentageComponent from "../components/PuttPercentageComponent";
 
-// TODO: Make a checkbox for showing/not showing undone putts
-
 export default function Stats() {
   const [stats, setStats] = useState([] as apiPuttResult[]);
+  const [showUndonePutts, setShowUndonePutts] = useState(false);
+  const handleShowUndonePuttsChange = () => {
+    setShowUndonePutts(!showUndonePutts);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -28,12 +30,15 @@ export default function Stats() {
   const getStatsGroupedByDay = (
     stats: apiPuttResult[]
   ): { day: string; putts: apiPuttResult[] }[] => {
-    const groupedStats = groupBy(stats, (result: apiPuttResult) => {
-      const parsedDate = parseISO(result.puttTimestamp);
-      return `${parsedDate.getFullYear()}-${
-        parsedDate.getMonth() + 1
-      }-${parsedDate.getDate()}`;
-    });
+    const groupedStats = groupBy(
+      stats.filter((p) => !p.isUndone || showUndonePutts),
+      (result: apiPuttResult) => {
+        const parsedDate = parseISO(result.puttTimestamp);
+        return `${parsedDate.getFullYear()}-${
+          parsedDate.getMonth() + 1
+        }-${parsedDate.getDate()}`;
+      }
+    );
 
     // Modify the dictionary into an array
     const objectArrayForStats: { day: string; putts: apiPuttResult[] }[] = [];
@@ -135,6 +140,15 @@ export default function Stats() {
       <Link to="/" style={{ fontSize: "20px" }}>
         Back to marking
       </Link>
+      <br />
+      <input
+        type="checkbox"
+        id="show-undone-putts-checkbox"
+        checked={showUndonePutts}
+        onChange={handleShowUndonePuttsChange}
+        style={{ marginTop: "20px" }}
+      />
+      <label htmlFor="show-undone-putts-checkbox">Show undone putts</label>
       <br />
       {statsForADayTables}
     </main>
