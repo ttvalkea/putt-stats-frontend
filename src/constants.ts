@@ -9,3 +9,9 @@ export enum PuttType {
   Competition = 3,
   Unknown = 4,
 }
+
+// Used when the user hasn't made a user selection yet, so no userId exists in localstorage
+export const defaultUserId = 1;
+
+// Used when the user hasn't made a putt type selection yet, so no puttType exists in localstorage
+export const defaultPuttType = PuttType.Practice;

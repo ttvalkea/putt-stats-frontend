@@ -1,4 +1,5 @@
 import axios from "axios";
+import { defaultUserId } from "./constants";
 import { apiPuttResult, newPuttInsert } from "./types";
 import { getUserIdFromLocalStorage } from "./utilities";
 
@@ -17,8 +18,9 @@ const headerConfiguration = {
 
 const getPuttResults = async (): Promise<apiPuttResult[] | undefined> => {
   try {
+    const userId = getUserIdFromLocalStorage() ?? defaultUserId;
     const res = await axiosInstance.get(
-      `/putt-results?userId=${getUserIdFromLocalStorage() ?? 1}`,
+      `/putt-results/${userId}`,
       headerConfiguration
     );
     const result = {
@@ -57,9 +59,10 @@ const markNewPuttResult = async (puttData: newPuttInsert): Promise<any> => {
 };
 
 const undoLastPuttResult = async (): Promise<any> => {
+  const userId = getUserIdFromLocalStorage() ?? defaultUserId;
   try {
     const result = await axiosInstance.patch(
-      "/undo-putt",
+      `/undo-putt/${userId}`,
       undefined,
       headerConfiguration
     );

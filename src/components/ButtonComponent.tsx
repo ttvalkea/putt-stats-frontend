@@ -1,6 +1,6 @@
 import { toast } from "react-toastify";
 import "../App.css";
-import { PuttResult, PuttType } from "../constants";
+import { defaultPuttType, defaultUserId, PuttResult } from "../constants";
 import { markNewPuttResult } from "../database";
 import { newPuttInsert } from "../types";
 import {
@@ -17,8 +17,8 @@ const markPuttResult = async (distance: number, puttResult: PuttResult) => {
   const markingResult = await markNewPuttResult({
     distance,
     isMade: puttResult === PuttResult.Make,
-    userId: getUserIdFromLocalStorage() ?? 1,
-    type: getPuttTypeFromLocalStorage() ?? PuttType.Practice,
+    userId: getUserIdFromLocalStorage() ?? defaultUserId,
+    type: getPuttTypeFromLocalStorage() ?? defaultPuttType,
   } as newPuttInsert);
   if (!markingResult) {
     toast.error(
