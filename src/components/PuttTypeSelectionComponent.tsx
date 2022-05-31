@@ -24,6 +24,7 @@ function PuttTypeSelectionComponent() {
         justifyContent: "center",
       }}
     >
+      Putt type:
       <div style={radioButtonContainerStyle}>
         <input
           type="radio"

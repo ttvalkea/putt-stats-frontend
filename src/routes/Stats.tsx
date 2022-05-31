@@ -77,7 +77,7 @@ export default function Stats() {
       </h3>
     );
 
-    const styleForPercentageElement = { padding: "10px" };
+    const styleForPercentageElement = { padding: "5px" };
     statsForADayTables.push(
       <div
         key={`percentage-element-${statsForADay.day}`}

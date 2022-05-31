@@ -65,6 +65,7 @@ function UserSelectionComponent() {
         justifyContent: "center",
       }}
     >
+      Selected user:
       {userSelectionElements}
     </div>
   );
