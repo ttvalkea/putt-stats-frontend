@@ -1,24 +1,29 @@
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { getUsers } from "../database";
-import { user } from "../types";
+import { setUsers } from "../store/userSlice";
 import { getUserIdFromLocalStorage } from "../utilities";
 
 function UserSelectionComponent() {
-  const [users, setUsers] = useState([] as user[]);
+  const users = useSelector((state: any) => state.users.users);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const fetchData = async () => {
-      const users = await getUsers();
-      if (!users) {
-        toast.error("An error occured trying to get putt results.");
-      } else {
-        setUsers(users);
-      }
-    };
+    // When the app is opened, fetch the users and store them into the store.
+    if (!users || users.length === 0) {
+      const fetchData = async () => {
+        const users = await getUsers();
+        if (!users) {
+          toast.error("An error occured trying to get users.");
+        } else {
+          dispatch(setUsers(users));
+        }
+      };
 
-    fetchData();
-  }, []);
+      fetchData();
+    }
+  }, [dispatch, users]);
 
   const [selectedUser, setSelectedUser] = useState(
     getUserIdFromLocalStorage() ?? 1
@@ -26,7 +31,7 @@ function UserSelectionComponent() {
 
   const handleUserChange = (event: any) => {
     const value: number = parseInt(event.target.value);
-    // Put the selected value into localstorage for a better (persistent) user experience
+    // Put the selected value into localstorage for a better (persistent) user experience between opening and closing the app
     localStorage.setItem("userId", value.toString());
     setSelectedUser(value);
   };
