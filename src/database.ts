@@ -1,6 +1,6 @@
 import axios from "axios";
 import { defaultUserId } from "./constants";
-import { apiPuttResult, newPuttInsert } from "./types";
+import { apiPuttResult, newPuttInsert, user } from "./types";
 import { getUserIdFromLocalStorage } from "./utilities";
 
 const axiosInstance = axios.create({
@@ -74,4 +74,21 @@ const undoLastPuttResult = async (): Promise<any> => {
   }
 };
 
-export { getPuttResults, markNewPuttResult, undoLastPuttResult };
+const getUsers = async (): Promise<user[] | undefined> => {
+  try {
+    const res = await axiosInstance.get("/users", headerConfiguration);
+    const result = {
+      data: res.data,
+      status: res.status,
+      statusText: res.statusText,
+      headers: res.headers,
+    };
+    console.log(result);
+    return result.data;
+  } catch (err) {
+    console.log("Error occured on 'getUsers'");
+    return undefined;
+  }
+};
+
+export { getPuttResults, markNewPuttResult, undoLastPuttResult, getUsers };

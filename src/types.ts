@@ -17,3 +17,8 @@ export type newPuttInsert = {
   userId: number;
   type: PuttType;
 };
+
+export type user = {
+  userId: number;
+  name: string;
+};

@@ -1,23 +1,56 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import { getUsers } from "../database";
+import { user } from "../types";
 import { getUserIdFromLocalStorage } from "../utilities";
 
 function UserSelectionComponent() {
-  // TODO: Implement getting users from the db
-  // const users = [
-  //   { usedId: 1, name: "Tuomas" },
-  //   { usedId: 2, name: "Lauri" },
-  // ];
+  const [users, setUsers] = useState([] as user[]);
 
-  const [user, setUser] = useState(getUserIdFromLocalStorage() ?? 1);
+  useEffect(() => {
+    const fetchData = async () => {
+      const users = await getUsers();
+      if (!users) {
+        toast.error("An error occured trying to get putt results.");
+      } else {
+        setUsers(users);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const [selectedUser, setSelectedUser] = useState(
+    getUserIdFromLocalStorage() ?? 1
+  );
 
   const handleUserChange = (event: any) => {
     const value: number = parseInt(event.target.value);
     // Put the selected value into localstorage for a better (persistent) user experience
     localStorage.setItem("userId", value.toString());
-    setUser(value);
+    setSelectedUser(value);
   };
 
-  const radioButtonContainerStyle = { paddingLeft: 10 };
+  const userSelectionElements: any[] = [];
+
+  for (let i = 0; i < users.length; i++) {
+    const user = users[i];
+    userSelectionElements.push(
+      <div
+        style={{ paddingLeft: 10 }}
+        key={`userRadioButtonContainer${user.userId}`}
+      >
+        <input
+          type="radio"
+          id={`userRadioButton${user.userId}`}
+          value={user.userId}
+          checked={selectedUser === user.userId}
+          onChange={handleUserChange}
+        />
+        <label htmlFor={`userRadioButton${user.userId}`}>{user.name}</label>
+      </div>
+    );
+  }
 
   return (
     <div
@@ -27,26 +60,7 @@ function UserSelectionComponent() {
         justifyContent: "center",
       }}
     >
-      <div style={radioButtonContainerStyle}>
-        <input
-          type="radio"
-          id="userRadioButton1"
-          value={1}
-          checked={user === 1}
-          onChange={handleUserChange}
-        />{" "}
-        <label htmlFor="userRadioButton1">Tuomas</label>
-      </div>
-      <div style={radioButtonContainerStyle}>
-        <input
-          type="radio"
-          id="userRadioButton2"
-          value={2}
-          checked={user === 2}
-          onChange={handleUserChange}
-        />{" "}
-        <label htmlFor="userRadioButton2">Lauri</label>
-      </div>
+      {userSelectionElements}
     </div>
   );
 }
