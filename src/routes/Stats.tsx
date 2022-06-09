@@ -72,7 +72,8 @@ export default function Stats() {
       <h3 key={`day-title-${statsForADay.day}`}>
         {statsForADay.day}
         <span style={{ fontSize: 14, fontWeight: 300, paddingLeft: "10px" }}>
-          {daysPuttTypes.toString()}
+          {daysPuttTypes.toString()} (
+          {puttsForADayOrdered.filter((x) => x.isMade && !x.isUndone).length})
         </span>
       </h3>
     );
@@ -86,14 +87,16 @@ export default function Stats() {
         <span style={styleForPercentageElement}>
           <PuttPercentageComponent
             putts={puttsForADayOrdered.filter(
-              (p) => p.distance >= 4 && p.distance <= 10
+              (p) => p.distance >= 4 && p.distance < 10
             )}
             header="C1"
           />
         </span>
         <span style={styleForPercentageElement}>
           <PuttPercentageComponent
-            putts={puttsForADayOrdered.filter((p) => p.distance > 10)}
+            putts={puttsForADayOrdered.filter(
+              (p) => p.distance >= 10 && p.distance < 21
+            )}
             header="C2"
           />
         </span>
