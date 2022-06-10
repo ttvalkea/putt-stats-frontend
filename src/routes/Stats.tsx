@@ -28,7 +28,7 @@ export default function Stats() {
 
     fetchData();
   }, []);
-
+  const zerofilled = (num: number) => ("00" + num).slice(-2);
   const getStatsGroupedByDay = (
     stats: apiPuttResult[]
   ): { day: string; putts: apiPuttResult[] }[] => {
@@ -36,9 +36,9 @@ export default function Stats() {
       stats.filter((p) => !p.isUndone || showUndonePutts),
       (result: apiPuttResult) => {
         const parsedDate = parseISO(result.puttTimestamp);
-        return `${parsedDate.getFullYear()}-${
+        return `${parsedDate.getFullYear()}-${zerofilled(
           parsedDate.getMonth() + 1
-        }-${parsedDate.getDate()}`;
+        )}-${zerofilled(parsedDate.getDate())}`;
       }
     );
 
