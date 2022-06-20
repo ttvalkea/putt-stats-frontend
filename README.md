@@ -2,9 +2,19 @@
 
 With this app you can easily mark your putt makes and misses when playing a round.
 
+### Running the app with Docker (recommended)
+
+Run `docker-compose up --build`
+
+After that, the frontend can be accessed from http://localhost:3001
+
+### Running the app without Docker
+
 First, run `npm i`.
 
 Run the app using `npm start`.
+
+## Deploying undockerized version to a GCP virtual machine
 
 To deploy the app to production, you need to have GCP SDK installed. Deploy using `npm run deploy`.
 
